@@ -1,5 +1,18 @@
 # Browser UI handoff
 
+## Current visual integration
+
+The supplied friend's frontend is integrated into the existing ZE2 app: dark operations header, amber/olive palette,
+attention-first dashboard and metric rows, responsive light/dark layouts, keyboard tabs and reduced-motion behavior.
+All newer screens and workflow behavior remain. No backend or database code was replaced. Supervisor readiness counts
+are preserved separately from other roles' draft queues. Six real-browser tests now cover the three original workflows,
+two desktop/mobile theme cases and the supervisor counter. [Desktop preview](../evidence/screenshots/operations-desktop-light.png)
+and [mobile dark preview](../evidence/screenshots/operations-mobile-dark.png) were visually inspected.
+
+The earlier three-scenario results below describe the pre-theme workflow validation; current full-suite evidence is
+[current.json](../evidence/current.json). Benchmarks and restore reports retain their earlier measured source versions;
+this presentation-only change does not claim newly measured database performance.
+
 The existing no-build, same-origin ES-module UI remains in place. User text is rendered through DOM text nodes, no third-party scripts/styles are loaded, and the shell's strict CSP is unchanged. New screens are `incident_reports`, `completion_review`, and `judge_evidence`; the incident intake works without a linked permit or registered worker. Permit workflow surfaces policy provenance, acknowledgement, typed readiness, serial personal/site gear, incomplete gas channels, and server-issued decision receipts. Positive permit decisions are described only as educational simulations when the server marks the scope educational. A visible connection state reports event polling health; polling is incremental and never makes an authorization decision.
 
 Mutation retries use a stable session-scoped idempotency key for the same method, route, and canonical body. A successful response clears that key; a changed body gets a new key. The standalone incident form retains victim aliases and keys on an error so the same report can be safely submitted again after a lost response.

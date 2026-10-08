@@ -96,6 +96,65 @@ def await_required(page, label: str) -> bool:
 
 
 @pytest.mark.browser
+@pytest.mark.parametrize("width,scheme,brand", [(1440, "light", "#8a4b08"), (390, "dark", "#e2a24e")])
+def test_operations_theme_responsive_layout_and_keyboard_tabs(browser_env, tmp_path, width, scheme, brand):
+    """Friend's presentation must retain ZE2 screens and accessible controls at phone/desktop sizes."""
+    app, world = browser_env
+    with serve(app) as base_url, sync_playwright() as pw:
+        browser = pw.chromium.launch(headless=True)
+        page = browser.new_page(viewport={"width": width, "height": 1000}, color_scheme=scheme)
+        page_errors = []
+        page.on("pageerror", lambda error: page_errors.append(str(error)))
+        login(page, base_url, world["users"]["engineer"]["email"])
+        expect(page.get_by_role("heading", name="Entry safety overview")).to_be_visible()
+        expect(page.get_by_role("heading", name="Needs attention")).to_be_visible()
+        expect(page.get_by_text("Draft permits awaiting checks", exact=True)).to_be_visible()
+        expect(page.get_by_text("Draft permits denied by current checks", exact=True)).to_have_count(0)
+        for label in ("Incident reports", "Completion review", "Judge evidence"):
+            expect(page.get_by_role("navigation").get_by_role("link", name=label, exact=True)).to_be_visible()
+        expect(page.locator("#policy-banner")).to_contain_text("REAL POLICY: DENIED")
+        assert page.evaluate("getComputedStyle(document.documentElement).getPropertyValue('--brand').trim()") == brand
+        assert page.evaluate("document.documentElement.scrollWidth <= window.innerWidth + 1")
+        page.screenshot(path=str(tmp_path / f"operations-{width}-{scheme}.png"), full_page=True)
+
+        page.goto(base_url + "/app/registry")
+        expect(page.get_by_role("heading", name="Registry", exact=True)).to_be_visible()
+        tabs = page.get_by_role("tab")
+        expect(tabs.first).to_have_attribute("aria-selected", "true")
+        tabs.first.focus()
+        tabs.first.press("ArrowRight")
+        expect(tabs.nth(1)).to_be_focused()
+        expect(tabs.nth(1)).to_have_attribute("aria-selected", "true")
+        expect(tabs.first).to_have_attribute("tabindex", "-1")
+        expect(page.get_by_role("tabpanel")).to_have_attribute("aria-labelledby", tabs.nth(1).get_attribute("id"))
+        tabs.nth(1).press("End")
+        expect(tabs.last).to_have_attribute("aria-selected", "true")
+        tabs.last.press("Home")
+        expect(tabs.first).to_be_focused()
+        expect(tabs.first).to_have_attribute("aria-selected", "true")
+        expect(page.get_by_role("tabpanel")).not_to_contain_text("Loading…")
+        assert not page_errors
+        browser.close()
+
+
+@pytest.mark.browser
+def test_operations_dashboard_preserves_supervisor_readiness_counter(browser_env):
+    app, world = browser_env
+    supervisor = api_login(app, world["users"]["supervisor"]["email"])
+    expected = supervisor.get("/api/v1/reports/dashboard").json()["draft_permits_not_ready"]
+    assert expected > 0
+    with serve(app) as base_url, sync_playwright() as pw:
+        browser = pw.chromium.launch(headless=True)
+        page = browser.new_page(viewport={"width": 390, "height": 844})
+        login(page, base_url, world["users"]["supervisor"]["email"])
+        card = page.locator(".attention-item").filter(has_text="Draft permits denied by current checks")
+        expect(card.locator(".attention-number")).to_have_text(str(expected))
+        expect(page.get_by_role("navigation").get_by_role("link", name="Shadow entries", exact=True)).to_have_count(0)
+        assert page.evaluate("document.documentElement.scrollWidth <= window.innerWidth + 1")
+        browser.close()
+
+
+@pytest.mark.browser
 def test_login_shows_policy_and_real_denial_receipt(browser_env, tmp_path):
     app, world = browser_env
     with serve(app) as base_url, sync_playwright() as pw:

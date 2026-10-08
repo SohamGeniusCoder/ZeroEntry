@@ -17,7 +17,7 @@ Follow the [four-to-five-minute demonstration](DEMO_SCRIPT.md). Real scope fails
 educational simulations. Show acknowledgement, retained receipt, safety stop and truthful exit, completion review,
 standalone two-victim intake and LAB proof.
 
-Verified: **617 passing local tests**, no failures/errors/skips, three real-browser scenarios; 50 application tables,
+Current frontend-integrated verification: **620 passing local tests**, no failures/errors/skips, six real-browser scenarios; 50 application tables,
 97 FKs and 16 migrations. The independently installed wheel also passed all six static page/asset smoke checks.
 All six LAB areas have actual evidence in [current.json](../evidence/current.json).
 The [raw JUnit report](../evidence/integration.xml) and its [unchanged-source binding](../evidence/integration.source.json)
@@ -32,7 +32,13 @@ The full [implementation plan](../plan/README.md) and detailed [A](WORKER_A_EXEC
 Branch: `codex/zeroentry-ze2-integration`. Main is not merged or rewritten. Review before merging.
 The integration starts from downloaded commit `a3db1b4`. During final publication, upstream main had advanced to
 `6ebc5e2` with additional UI, startup and presentation work. Those newer changes are untouched and not merged here;
-review overlapping UI/docs changes before any eventual merge. This branch's 617-test result applies to this branch only.
+review overlapping UI/docs changes before any eventual merge. The earlier pre-theme release had 617 passing tests;
+the current source-bound frontend-integrated report supersedes that local count with 620.
+
+Personal publication targets [SohamGeniusCoder/ZeroEntry](https://github.com/SohamGeniusCoder/ZeroEntry), with this
+integrated tree published as its own main branch. The existing teammate origin and its main are not rewritten.
+The public [README](../../README.md) and [project tour](../PROJECT_TOUR.md) explain the implementation, diagrams,
+setup, syllabus evidence, contribution boundaries and synthetic demonstration.
 
 Do not commit
 credentials, `.env`, `.pgdata`, dumps or virtual environments. To regenerate proof install `.[dev,browser]`, install

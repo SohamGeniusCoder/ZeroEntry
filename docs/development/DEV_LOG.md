@@ -2,6 +2,35 @@
 
 Newest entry first. Resume from the latest entry; do not reconstruct the plan from chat history.
 
+## 2026-10-08 · Personal GitHub publication package
+
+Created the public [SohamGeniusCoder/ZeroEntry](https://github.com/SohamGeniusCoder/ZeroEntry) repository with the
+user's explicit public-visibility approval. Prepared the final frontend-integrated tree for its own main branch,
+preserving the teammate origin and original Git history. Added the public README's dashboard screenshots, architecture
+and selected real-FK ER overview, startup/demo commands, syllabus mapping, evidence links, limitations and attribution.
+Added [PROJECT_TOUR](../PROJECT_TOUR.md) for the complete workflow and design rationale. No license grant was invented.
+
+Fresh complete verification passed **620 tests, six browser scenarios, zero failures/errors/skips in 123.27 seconds**.
+The source-bound JUnit report is retained under docs/evidence; documentation links and generated schema/ER checks
+are verified separately. Private environment settings, development passwords, databases and virtual environments
+are excluded. This is local software evidence, not remote CI or field certification.
+
+## 2026-10-08 · Friend's safety-operations frontend integration
+
+Integrated the presentation from the supplied `DBThon--feat-frontend-safety-operations-ui` folder, whose five changed
+frontend files match revision `04c7d8d`. Retained its dark header, amber/olive theme, attention board, metric rows,
+responsive layout, keyboard tabs, heading focus and reduced-motion support. Preserved all ZE2 screens, role guards,
+policy/connection banners, decision controls, NULL gas handling, acknowledgement/readiness/serial resources,
+idempotent retries and scoped event replay. Supervisor-only denial counts remain visible; other roles see the
+actual draft queue rather than a fabricated zero denial count.
+
+Database, migrations, Python API, scripts and demo data are unchanged. Six browser tests and all JavaScript module
+syntax checks passed. Full source-bound verification passed **620 tests, six browser cases, zero failures/errors/skips**
+in 126.22 seconds; its result is [current.json](../evidence/current.json).
+Screenshots: [desktop](../evidence/screenshots/operations-desktop-light.png),
+[mobile dark](../evidence/screenshots/operations-mobile-dark.png). At this earlier handoff, changes were local,
+with no new commit or push; the publication package above follows it.
+
 ## 2026-10-08 · ZE2 integrated release
 
 Three GPT-6 Luna lanes extended the independently verified 574-test foundation. The complete frozen tree passed
